@@ -1,0 +1,36 @@
+// User Schema
+const UserSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, unique: true, required: true },
+  password: { type: String, required: true },
+  role: { type: String, enum: ["user", "admin"], default: "user" },
+});
+
+// Restaurant Schema
+const RestaurantSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  location: { type: String, required: true },
+  cuisine: { type: String, required: true },
+  availableSlots: [{ date: Date, time: String }],
+  ratings: { type: Number, default: 0 },
+  reviews: [{ userId: String, comment: String, rating: Number }],
+});
+
+// Reservation Schema
+const ReservationSchema = new mongoose.Schema({
+ _id: ObjectId,
+  restaurantId: { type: mongoose.Schema.Types.ObjectId, ref: "Restaurant" },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  date: { type: Date, required: true },
+  time: { type: String, required: true },
+  numberOfGuests: { type: Number, required: true },
+  status: { type: String, enum: ["pending", "confirmed", "cancelled"], default: "pending" },
+});
+
+// Payment Schema
+const PaymentSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  reservationId: { type: mongoose.Schema.Types.ObjectId, ref: "Reservation" },
+  amount: { type: Number, required: true },
+  paymentStatus: { type: String, enum: ["success", "failure"], default: "success" },
+});
