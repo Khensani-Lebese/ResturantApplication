@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import axios from 'axios';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons'; // Import icon libraries
 
 export default function RestaurantListScreen() {
   const { token } = useLocalSearchParams();
@@ -15,17 +23,22 @@ export default function RestaurantListScreen() {
     const fetchRestaurants = async () => {
       try {
         console.log('Fetching restaurants with token:', token);
-        const response = await axios.get('https://restaurant-server-5htc.onrender.com/api/restaurants', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          'https://restaurant-server-5htc.onrender.com/api/restaurants',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         console.log('Restaurant data received:', response.data);
         setRestaurants(response.data);
         setError(null);
       } catch (error) {
         console.error('Error details:', error.response || error);
-        setError(error.response?.data?.message || 'Failed to fetch restaurants');
+        setError(
+          error.response?.data?.message || 'Failed to fetch restaurants'
+        );
       } finally {
         setLoading(false);
       }
@@ -66,14 +79,56 @@ export default function RestaurantListScreen() {
         key={numColumns} // Add the key prop to force re-render
         keyExtractor={(item) => item._id?.toString() || Math.random().toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.restaurantItem}
-            onPress={() => navigation.navigate('RestaurantDetail', { restaurantId: item._id, token })}
-          >
-            <Text style={styles.restaurantName}>{item.name || 'Unnamed Restaurant'}</Text>
+          <View style={styles.restaurantItem}>
+            <Text style={styles.restaurantName}>
+              {item.name || 'Unnamed Restaurant'}
+            </Text>
             <Text>{item.cuisine || 'Cuisine not specified'}</Text>
             <Text>{item.location || 'Location not specified'}</Text>
-          </TouchableOpacity>
+
+            {/* Icons with hover labels */}
+            <View style={styles.iconContainer}>
+              {/* WiFi Icon */}
+              <TouchableOpacity
+                style={styles.iconWrapper}
+                onPress={() => console.log('WiFi')}
+              >
+                <FontAwesome name="wifi" size={20} color="black" />
+                <Text style={styles.iconLabel}>WiFi</Text>
+              </TouchableOpacity>
+
+              {/* Smoking Icon */}
+              <TouchableOpacity
+                style={styles.iconWrapper}
+                onPress={() => console.log('Smoking Section')}
+              >
+                <MaterialIcons name="smoking-rooms" size={20} color="black" />
+                <Text style={styles.iconLabel}>Smoking Section</Text>
+              </TouchableOpacity>
+
+              {/* Catering Icon */}
+              <TouchableOpacity
+                style={styles.iconWrapper}
+                onPress={() => console.log('Outside Catering')}
+              >
+                <MaterialIcons name="restaurant" size={20} color="black" />
+                <Text style={styles.iconLabel}>Outside Catering</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* View Restaurant Button */}
+            <TouchableOpacity
+              style={styles.viewButton}
+              onPress={() =>
+                navigation.navigate('RestaurantDetail', {
+                  restaurantId: item._id,
+                  token,
+                })
+              }
+            >
+              <Text style={styles.viewButtonText}>View Restaurant</Text>
+            </TouchableOpacity>
+          </View>
         )}
         columnWrapperStyle={styles.columnWrapper} // Custom styling for the row
       />
@@ -104,11 +159,41 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#eee',
+    position: 'relative', // Enable relative positioning for absolute children
+    height: 220, // Adjust height for icons
   },
   restaurantName: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 4,
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 8,
+  },
+  iconWrapper: {
+    alignItems: 'center',
+    position: 'relative',
+  },
+  iconLabel: {
+    fontSize: 10,
+    color: '#555',
+    marginTop: 4,
+  },
+  viewButton: {
+    position: 'absolute', // Position absolutely within the card
+    bottom: 10, // Set distance from the bottom
+    right: 10, // Set distance from the right
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: 'green', // Changed to green
+    borderRadius: 4,
+  },
+  viewButtonText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   errorText: {
     color: 'red',
