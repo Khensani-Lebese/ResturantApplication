@@ -185,15 +185,22 @@ const styles = StyleSheet.create({
     position: 'absolute', // Position absolutely within the card
     bottom: 10, // Set distance from the bottom
     right: 10, // Set distance from the right
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    backgroundColor: 'green', // Changed to green
-    borderRadius: 4,
+    paddingVertical: 10, // Increased padding for a luxurious feel
+    paddingHorizontal: 20, // More horizontal padding
+    borderRadius: 20, // Rounded corners for a smooth look
+    backgroundColor: '#FF6F61', // Subtle luxury background
+    elevation: 4, // Shadow for Android
+    shadowColor: '#000', // Shadow for iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   viewButtonText: {
     color: '#fff',
     textAlign: 'center',
     fontWeight: 'bold',
+    fontSize: 16, // Larger font size for elegance
+    letterSpacing: 1, // Slight letter spacing
   },
   errorText: {
     color: 'red',
