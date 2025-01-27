@@ -9,6 +9,7 @@ export default function RestaurantListScreen() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigation = useNavigation();
+  const numColumns = 2; // Define the number of columns
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -61,10 +62,12 @@ export default function RestaurantListScreen() {
     <View style={styles.container}>
       <FlatList
         data={restaurants}
+        numColumns={numColumns} // Set the number of columns
+        key={numColumns} // Add the key prop to force re-render
         keyExtractor={(item) => item._id?.toString() || Math.random().toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity 
-            style={styles.restaurantItem} 
+          <TouchableOpacity
+            style={styles.restaurantItem}
             onPress={() => navigation.navigate('RestaurantDetail', { restaurantId: item._id, token })}
           >
             <Text style={styles.restaurantName}>{item.name || 'Unnamed Restaurant'}</Text>
@@ -72,6 +75,7 @@ export default function RestaurantListScreen() {
             <Text>{item.location || 'Location not specified'}</Text>
           </TouchableOpacity>
         )}
+        columnWrapperStyle={styles.columnWrapper} // Custom styling for the row
       />
     </View>
   );
@@ -80,7 +84,7 @@ export default function RestaurantListScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 8,
     backgroundColor: '#fff',
   },
   centerContainer: {
@@ -89,8 +93,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
   },
+  columnWrapper: {
+    justifyContent: 'space-between', // Space out the items evenly
+  },
   restaurantItem: {
-    marginBottom: 12,
+    flex: 1,
+    margin: 8,
     padding: 16,
     backgroundColor: '#f9f9f9',
     borderRadius: 8,
@@ -98,7 +106,7 @@ const styles = StyleSheet.create({
     borderColor: '#eee',
   },
   restaurantName: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 4,
   },
@@ -106,4 +114,4 @@ const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
   },
-}); 
+});

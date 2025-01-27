@@ -4,12 +4,13 @@ import axios from 'axios';
 import { useLocalSearchParams } from 'expo-router';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const RestaurantDetailScreen = () => {
+  const RestaurantDetailScreen = () => {
   const { restaurantId, token } = useLocalSearchParams();
   const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
+
   // New state variables for reservation details
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date());
@@ -18,7 +19,7 @@ const RestaurantDetailScreen = () => {
   const [showTimePicker, setShowTimePicker] = useState(false);
 
   useEffect(() => {
-    const fetchRestaurantDetails = async () => {
+  const fetchRestaurantDetails = async () => {
       try {
         const response = await axios.get(`https://restaurant-server-5htc.onrender.com/api/restaurants/${restaurantId}`);
         setRestaurant(response.data);
