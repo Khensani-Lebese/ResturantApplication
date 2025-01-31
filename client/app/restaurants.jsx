@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons'; // Import icon libraries
 
 export default function RestaurantListScreen() {
   const { token } = useLocalSearchParams();
@@ -17,7 +16,7 @@ export default function RestaurantListScreen() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigation = useNavigation();
-  const numColumns = 2; // Define the number of columns
+  const numColumns = 2; // Number of columns for grid layout
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -75,62 +74,27 @@ export default function RestaurantListScreen() {
     <View style={styles.container}>
       <FlatList
         data={restaurants}
-        numColumns={numColumns} // Set the number of columns
-        key={numColumns} // Add the key prop to force re-render
+        numColumns={numColumns}
+        key={numColumns}
         keyExtractor={(item) => item._id?.toString() || Math.random().toString()}
         renderItem={({ item }) => (
-          <View style={styles.restaurantItem}>
+          <TouchableOpacity
+            style={styles.restaurantItem}
+            onPress={() =>
+              navigation.navigate('RestaurantDetail', {
+                restaurantId: item._id,
+                token,
+              })
+            }
+          >
             <Text style={styles.restaurantName}>
               {item.name || 'Unnamed Restaurant'}
             </Text>
             <Text>{item.cuisine || 'Cuisine not specified'}</Text>
             <Text>{item.location || 'Location not specified'}</Text>
-
-            {/* Icons with hover labels */}
-            <View style={styles.iconContainer}>
-              {/* WiFi Icon */}
-              <TouchableOpacity
-                style={styles.iconWrapper}
-                onPress={() => console.log('WiFi')}
-              >
-                <FontAwesome name="wifi" size={20} color="black" />
-                <Text style={styles.iconLabel}>WiFi</Text>
-              </TouchableOpacity>
-
-              {/* Smoking Icon */}
-              <TouchableOpacity
-                style={styles.iconWrapper}
-                onPress={() => console.log('Smoking Section')}
-              >
-                <MaterialIcons name="smoking-rooms" size={20} color="black" />
-                <Text style={styles.iconLabel}>Smoking Section</Text>
-              </TouchableOpacity>
-
-              {/* Catering Icon */}
-              <TouchableOpacity
-                style={styles.iconWrapper}
-                onPress={() => console.log('Outside Catering')}
-              >
-                <MaterialIcons name="restaurant" size={20} color="black" />
-                <Text style={styles.iconLabel}>Outside Catering</Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* View Restaurant Button */}
-            <TouchableOpacity
-              style={styles.viewButton}
-              onPress={() =>
-                navigation.navigate('RestaurantDetail', {
-                  restaurantId: item._id,
-                  token,
-                })
-              }
-            >
-              <Text style={styles.viewButtonText}>View Restaurant</Text>
-            </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
         )}
-        columnWrapperStyle={styles.columnWrapper} // Custom styling for the row
+        columnWrapperStyle={styles.columnWrapper}
       />
     </View>
   );
@@ -149,7 +113,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   columnWrapper: {
-    justifyContent: 'space-between', // Space out the items evenly
+    justifyContent: 'space-between',
   },
   restaurantItem: {
     flex: 1,
@@ -159,48 +123,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#eee',
-    position: 'relative', // Enable relative positioning for absolute children
-    height: 220, // Adjust height for icons
+    height: 120, // Adjusted height
+    justifyContent: 'center',
   },
   restaurantName: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 4,
-  },
-  iconContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 8,
-  },
-  iconWrapper: {
-    alignItems: 'center',
-    position: 'relative',
-  },
-  iconLabel: {
-    fontSize: 10,
-    color: '#555',
-    marginTop: 4,
-  },
-  viewButton: {
-    position: 'absolute', // Position absolutely within the card
-    bottom: 10, // Set distance from the bottom
-    right: 10, // Set distance from the right
-    paddingVertical: 10, // Increased padding for a luxurious feel
-    paddingHorizontal: 20, // More horizontal padding
-    borderRadius: 20, // Rounded corners for a smooth look
-    backgroundColor: '#FF6F61', // Subtle luxury background
-    elevation: 4, // Shadow for Android
-    shadowColor: '#000', // Shadow for iOS
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-  },
-  viewButtonText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 16, // Larger font size for elegance
-    letterSpacing: 1, // Slight letter spacing
   },
   errorText: {
     color: 'red',

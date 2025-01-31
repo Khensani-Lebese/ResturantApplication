@@ -11,7 +11,6 @@ import {
 import axios from 'axios';
 import { useRouter } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons'; // Choose a suitable icon set
-
 export default function LoginScreen() {
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -59,7 +58,6 @@ export default function LoginScreen() {
     <View style={styles.container}>
       {/* Logo Section */}
       <Image source={require('../Icon.png')} style={styles.logo} />
-
       {/* Title */}
       <Text style={styles.title}>Welcome Back</Text>
 
