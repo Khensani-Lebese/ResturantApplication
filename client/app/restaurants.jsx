@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#e0a314', // Changed background color
   },
   centerContainer: {
     flex: 1,
@@ -136,3 +136,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
