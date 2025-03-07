@@ -81,7 +81,7 @@ export default function Profile() {
     }
 
     try {
-      const response = await axios.put('https://priority-i4dq.onrender.com/api/auth/me', {
+      const response = await axios.put('{*input backend url*}api/auth/me', {
         name: editedName.trim(),
         email: editedEmail.trim()
       });

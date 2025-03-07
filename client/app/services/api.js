@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const api = axios.create({
-  baseURL: 'https://priority-i4dq.onrender.com/api'
+  baseURL: process.env.EXPO_PUBLIC_API_URL
 });
 
 // Add token to all requests
