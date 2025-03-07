@@ -13,12 +13,19 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "splash": {
+        "splashScreenStayOpen": 4000
+      }
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+      "package": "com.koji.Omakase",
+      "versionCode": 1,
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ],
+      "splash": {
+        "splashScreenStayOpen": 4000
       }
     },
     "web": {
@@ -34,3 +41,4 @@
     }
   }
 }
+
